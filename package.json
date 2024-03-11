@@ -19,6 +19,7 @@
   "homepage": "https://github.com/shuding/nextra-docs-template#readme",
   "dependencies": {
     "@aws-amplify/adapter-nextjs": "^1.0.19",
+    "@aws-amplify/ui-react": "^6.0.0",
     "aws-amplify": "^6.0.19",
     "next": "^13.5.6",
     "nextra": "latest",
