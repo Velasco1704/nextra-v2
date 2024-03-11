@@ -10,8 +10,8 @@
     "config": {
       "SourceDir": "./",
       "DistributionDir": ".next",
-      "BuildCommand": "npm run build",
-      "StartCommand": "npm run start",
+      "BuildCommand": "pnpm build",
+      "StartCommand": "pnpm start",
       "ServerlessContainers": false
     }
   }
