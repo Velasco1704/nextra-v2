@@ -113,7 +113,7 @@ jobs:
         id: check_changes
         run: |
           if [ "$(git rev-parse ${{ github.sha }}^ 2> /dev/null)" != "" ]; then
-            git diff --name-only ${{ github.sha }} ${{ github.sha }}^ > changes.txt
+            git diff --name-only ${{ github.sha }} -- ${{ github.sha }}^ > changes.txt
             if [ -s changes.txt ]; then
               echo "::set-output name=changes::true"
             else
