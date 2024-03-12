@@ -24,13 +24,36 @@ jobs:
         with:
           node-version: "18.x"
       - run: npm i
-      - run: npm install -g npm
-      - run: npm install -g @aws-amplify/cli
-      - name: Configurar Amplify
-        run: |
-          npm install -g @aws-amplify/cli
-          amplify configure --region us-east-1 --accessKeyId ${{ secrets.ACCESS_KEY_ID }} --secretAccessKey ${{ secrets.SECRET_ACCESS_KEY }}
-          amplify pull --appId d298pyf9b3b3j0 --envName staging
-      - run: amplify publish
+      # - run: npm install -g @aws-amplify/cli
+      # - name: Configurar Amplify
+      #   run: |
+      #     npm install -g @aws-amplify/cli
+      #     amplify configure --region us-east-1 --accessKeyId ${{ secrets.ACCESS_KEY_ID }} --secretAccessKey ${{ secrets.SECRET_ACCESS_KEY }}
+      #     amplify pull --appId d298pyf9b3b3j0 --envName staging
+      # - run: amplify publish
+      - name: configure amplify
+        uses: ambientlight/amplify-cli-action@0.3.0
+        with:
+          amplify_command: configure
+          amplify_env: prod
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
 
-      # amplify init --app https://github.com/Velasco1704/nextra-v2.git
+      - name: install and build
+        run: |
+          npm install
+          # npm run build
+
+      - name: deploy
+        uses: ambientlight/amplify-cli-action@0.3.0
+        with:
+          amplify_command: publish
+          amplify_env: prod
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
+
+    # amplify init --app https://github.com/Velasco1704/nextra-v2.git
