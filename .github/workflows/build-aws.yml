@@ -25,11 +25,6 @@ jobs:
           node-version: "18.x"
       - run: npm i
       - run: npm install -g @aws-amplify/cli
-      # - name: Configurar Amplify
-      #   run: |
-      #     npm install -g @aws-amplify/cli
-      #     amplify pull --appId d298pyf9b3b3j0 --envName staging
-      # - run: amplify publish
       - name: Configurar AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -37,6 +32,4 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
       - run: amplify init --appId d298pyf9b3b3j0 --envName staging -y
-      - run: amplify publish
-
-    # amplify configure -y --region us-east-1 --accessKeyId ${{ secrets.ACCESS_KEY_ID }} --secretAccessKey ${{ secrets.SECRET_ACCESS_KEY }}
+      - run: amplify publish -y
