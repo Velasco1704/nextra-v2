@@ -47,21 +47,19 @@ on:
   push:
     branches:
       - main
-  repository_dispatch:
-    types: [docs-example]
-
+    paths:
+      - "docs-example/**"
 jobs:
   aws-publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout App Repo
-        uses: actions/checkout@v4
       - name: Checkout Docs Repo
         uses: actions/checkout@v4
         with:
           repository: Velasco1704/docs-example
-          # path: docs-example
           ref: main
+      - name: Checkout App Repo
+        uses: actions/checkout@v4
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
