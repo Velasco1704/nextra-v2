@@ -12,3 +12,8 @@ jobs:
           node-version: "18.x"
       - run: npm i
       - run: npm run build
+
+  aws-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - run: amplify publish
