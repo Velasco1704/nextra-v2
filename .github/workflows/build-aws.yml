@@ -10,5 +10,5 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "18.x"
-      - run: pnpm i
-      - run: pnpm build
+      - run: npm i
+      - run: npm run build
