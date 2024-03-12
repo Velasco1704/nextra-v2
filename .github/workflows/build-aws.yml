@@ -28,8 +28,8 @@ jobs:
       - name: Configurar Amplify
         run: |
           npm install -g @aws-amplify/cli
-          amplify configure -y --region us-east-1 --accessKeyId ${{ secrets.ACCESS_KEY_ID }} --secretAccessKey ${{ secrets.SECRET_ACCESS_KEY }}
           amplify pull --appId d298pyf9b3b3j0 --envName staging
       - run: amplify publish
 
     # amplify init --app https://github.com/Velasco1704/nextra-v2.git
+    # amplify configure -y --region us-east-1 --accessKeyId ${{ secrets.ACCESS_KEY_ID }} --secretAccessKey ${{ secrets.SECRET_ACCESS_KEY }}
