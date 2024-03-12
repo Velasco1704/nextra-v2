@@ -26,9 +26,9 @@ jobs:
       - run: npm i
       - run: npm install -g npm
       - run: npm install -g @aws-amplify/cli
-      # - name: Configurar Amplify
-      #   env:
-      #     ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
-      #     SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
-      #   run: amplify configure
+      - name: Configurar Amplify
+        env:
+          ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
+          SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+        run: amplify configure
       - run: amplify publish
