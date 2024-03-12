@@ -14,6 +14,19 @@ jobs:
       - run: npm run build
 
   aws-publish:
+    needs: build
     runs-on: ubuntu-latest
     steps:
+      - run: curl -sL https://aws-amplify.github.io/amplify-cli/install | bash && $SHELL
+      - name: Configurar Amplify
+        env:
+          ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
+          SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+        run: |
+          echo '{
+            "accessKeyId": "'$ACCESS_KEY_ID'",
+            "secretAccessKey": "'$SECRET_ACCESS_KEY'",
+            "region": "us-east-1"
+          }' > ~/.aws/credentials
+          amplify configure
       - run: amplify publish
