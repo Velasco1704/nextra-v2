@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: "18.x"
       - run: npm i
-      - run: pnpm i
+      - run: curl -fsSL https://get.pnpm.io/install.sh | sh -
       - run: npm install -g @aws-amplify/cli
       - name: Configurar AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
