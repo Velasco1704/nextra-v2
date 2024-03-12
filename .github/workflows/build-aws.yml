@@ -17,10 +17,18 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - run: curl -sL https://aws-amplify.github.io/amplify-cli/install | bash && $SHELL
-      - name: Configurar Amplify
-        env:
-          ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
-          SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
-        run: amplify configure
+      - name: checkout repo
+        uses: actions/checkout@v4
+      - name: use node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18.x"
+      - run: npm i
+      - run: npm install -g npm
+      - run: npm install -g @aws-amplify/cli
+      # - name: Configurar Amplify
+      #   env:
+      #     ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
+      #     SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+      #   run: amplify configure
       - run: amplify publish
