@@ -1,31 +1,16 @@
-# name: build-test-deploy
+# name: Build and Publish
+
 # on:
 #   push:
 #     branches:
 #       - main
-
 # jobs:
-#   build:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout Repo
-#         uses: actions/checkout@v4
-#         with:
-#           repository: Velasco1704/docs-example
-#       - name: use node.js
-#         uses: actions/setup-node@v4
-#         with:
-#           node-version: "18.x"
-#       - run: npm i
-#       - run: npm run build
-
 #   aws-publish:
-#     needs: build
 #     runs-on: ubuntu-latest
 #     steps:
-#       - name: checkout repo
+#       - name: Checkout App Repo
 #         uses: actions/checkout@v4
-#       - name: use node.js
+#       - name: Use Node.js
 #         uses: actions/setup-node@v4
 #         with:
 #           node-version: "18.x"
@@ -40,25 +25,27 @@
 #           aws-region: us-east-1
 #       - run: amplify init --appId d298pyf9b3b3j0 --envName staging -y
 #       - run: amplify publish -y
+
 name: Build and Publish
 
 on:
   push:
     branches:
       - main
-    # paths:
-    #   - "docs-example/**"
+    paths-ignore:
+      - "docs-example/**" # Ignore changes in the external repository
+
 jobs:
   aws-publish:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout App Repo
         uses: actions/checkout@v4
-      # - name: Checkout Docs Repo
-      #   uses: actions/checkout@v4
-      #   with:
-      #     repository: Velasco1704/docs-example
-      #     ref: main
+      - name: Checkout External Repo
+        uses: actions/checkout@v4
+        with:
+          repository: Velasco1704/docs-example # Specify the external repository
+          path: docs-example # Specify the path to checkout the external repository
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
@@ -73,4 +60,15 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
       - run: amplify init --appId d298pyf9b3b3j0 --envName staging -y
-      - run: amplify publish -y
+      - name: Check for changes in the external repository
+        id: check_changes
+        run: |
+          git diff --name-only ${{ github.sha }} ${{ github.sha }}^ > changes.txt
+          if [ -s changes.txt ]; then
+            echo "::set-output name=changes::true"
+          else
+            echo "::set-output name=changes::false"
+          fi
+      - name: Amplify Publish
+        if: steps.check_changes.outputs.changes == 'true'
+        run: amplify publish -y
