@@ -32,8 +32,8 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - "docs-example/**" # Ignore changes in the external repository
+    # paths-ignore:
+    #   - "docs-example/**"
 
 jobs:
   aws-publish:
