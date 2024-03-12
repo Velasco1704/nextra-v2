@@ -24,6 +24,7 @@ jobs:
         with:
           node-version: "18.x"
       - run: npm i
+      - run: npm install -g pnpm
       - run: npm install -g @aws-amplify/cli
       - name: Configurar AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -31,7 +32,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-      - run: echo "SHELL=$(which bash)" >> $GITHUB_ENV
-      - run: curl -fsSL https://get.pnpm.io/install.sh | sh -
+      # - run: echo "SHELL=$(which bash)" >> $GITHUB_ENV
+      # - run: curl -fsSL https://get.pnpm.io/install.sh | sh -
       - run: amplify init --appId d298pyf9b3b3j0 --envName staging -y
       - run: amplify publish -y
