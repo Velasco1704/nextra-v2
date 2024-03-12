@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: "18.x"
       - run: npm i
-      # - run: npm install -g @aws-amplify/cli
+      - run: npm install -g @aws-amplify/cli
       # - name: Configurar Amplify
       #   run: |
       #     npm install -g @aws-amplify/cli
