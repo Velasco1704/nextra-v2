@@ -60,7 +60,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: Velasco1704/docs-example
-          path: docs-example
+          # path: docs-example
+          ref: main
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
