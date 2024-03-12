@@ -63,7 +63,8 @@ jobs:
       - name: Check for changes in the external repository
         id: check_changes
         run: |
-          git diff --name-only ${{ github.sha }} ${{ github.sha }}^ > changes.txt
+          git fetch
+          git diff --name-only origin/main...HEAD > changes.txt
           if [ -s changes.txt ]; then
             echo "::set-output name=changes::true"
           else
