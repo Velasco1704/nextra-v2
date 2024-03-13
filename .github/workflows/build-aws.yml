@@ -132,8 +132,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - "external-repo/**"
 
 jobs:
   aws-publish:
