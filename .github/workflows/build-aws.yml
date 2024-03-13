@@ -129,11 +129,10 @@
 name: AWS Publish Workflow
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "external-repo/**"
+  repository_dispatch:
+    types: [main]
+    # paths:
+    #   - "docs-example/**"
 
 jobs:
   aws-publish:
@@ -145,7 +144,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: Velasco1704/docs-example
-          path: external-repo
+          path: docs-example
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
