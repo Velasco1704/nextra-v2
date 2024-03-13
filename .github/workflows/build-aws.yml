@@ -74,15 +74,64 @@
 #         if: steps.check_changes.outputs.changes == 'true'
 #         run: amplify publish -y
 
-name: Build and Publish
+# name: Build and Publish
+
+# on:
+#   push:
+#     branches:
+#       - main
+#   repository_dispatch:
+#     types:
+#       - external_repo_changed
+
+# jobs:
+#   aws-publish:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout App Repo
+#         uses: actions/checkout@v4
+#       - name: Checkout External Repo
+#         uses: actions/checkout@v4
+#         with:
+#           repository: Velasco1704/docs-example
+#           path: external-repo
+#       - name: Use Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: "18.x"
+#       - run: npm i
+#       - run: npm install -g pnpm
+#       - run: npm install -g @aws-amplify/cli
+#       - name: Configurar AWS credentials
+#         uses: aws-actions/configure-aws-credentials@v1
+#         with:
+#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region: us-east-1
+#       - run: amplify init --appId d298pyf9b3b3j0 --envName staging -y
+#       - name: Check for changes in the external repository
+#         id: check_changes
+#         run: |
+#           if [ "$(git rev-parse ${{ github.sha }}^ 2> /dev/null)" != "" ]; then
+#           git diff --name-only ${{ github.sha }} -- ${{ github.sha }}^ > changes.txt
+#           if [ -s changes.txt ]; then
+#             echo "::set-output name=changes::true"
+#           else
+#             echo "::set-output name=changes::false"
+#           fi
+#           else
+#             echo "::set-output name=changes::false"
+#           fi
+#       - name: Amplify Publish
+#         if: steps.check_changes.outputs.changes == 'true'
+#         run: amplify publish -y
+
+name: build
 
 on:
   push:
-    branches:
-      - main
-  repository_dispatch:
-    types:
-      - external_repo_changed
+    paths:
+      - "external-repo/**"
 
 jobs:
   aws-publish:
@@ -109,19 +158,4 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
       - run: amplify init --appId d298pyf9b3b3j0 --envName staging -y
-      - name: Check for changes in the external repository
-        id: check_changes
-        run: |
-          if [ "$(git rev-parse ${{ github.sha }}^ 2> /dev/null)" != "" ]; then
-          git diff --name-only ${{ github.sha }} -- ${{ github.sha }}^ > changes.txt
-          if [ -s changes.txt ]; then
-            echo "::set-output name=changes::true"
-          else
-            echo "::set-output name=changes::false"
-          fi
-          else
-            echo "::set-output name=changes::false"
-          fi
-      - name: Amplify Publish
-        if: steps.check_changes.outputs.changes == 'true'
-        run: amplify publish -y
+      - run: amplify publish -y
