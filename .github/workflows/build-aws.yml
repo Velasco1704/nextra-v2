@@ -126,12 +126,12 @@
 #         if: steps.check_changes.outputs.changes == 'true'
 #         run: amplify publish -y
 
-name: build
+name: AWS Publish Workflow
 
 on:
   push:
-    paths:
-      - "external-repo/**"
+    branches:
+      - main
 
 jobs:
   aws-publish:
@@ -151,7 +151,7 @@ jobs:
       - run: npm i
       - run: npm install -g pnpm
       - run: npm install -g @aws-amplify/cli
-      - name: Configurar AWS credentials
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
